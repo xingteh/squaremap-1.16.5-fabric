@@ -21,7 +21,6 @@ dependencies {
   api(platform(libs.adventureBom))
   compileOnlyApi(libs.adventureApi)
   compileOnlyApi(libs.adventureTextSerializerPlain)
-  compileOnlyApi(libs.miniMessage)
 
   api(platform(libs.cloudBom))
   api(libs.cloudCore)

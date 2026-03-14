@@ -5,7 +5,8 @@
     "name": "squaremap",
     "description": "${description}",
     "authors": [
-        "jmp"
+        "jmp",
+        "xingteh"
     ],
     "contact": {
         "homepage": "${github_url}",
@@ -36,7 +37,7 @@
     "depends": {
         "fabric": "*",
         "fabricloader": ">=0.14.6",
-        "minecraft": ">=1.19",
+        "minecraft": "1.16.5",
         "cloud": "*",
         "adventure-platform-fabric": "*"
     }

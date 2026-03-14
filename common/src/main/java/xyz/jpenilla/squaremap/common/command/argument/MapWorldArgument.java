@@ -141,7 +141,7 @@ public final class MapWorldArgument<C> extends CommandArgument<C, MapWorldIntern
             return commandContext.get(Commands.WORLD_MANAGER).worlds().stream()
                 .flatMap(mapWorld -> {
                     final WorldIdentifier identifier = mapWorld.identifier();
-                    if (!input.isBlank() && identifier.namespace().equals(ResourceLocation.DEFAULT_NAMESPACE)) {
+                    if (!input.isBlank() && identifier.namespace().equals("minecraft")) {
                         return Stream.of(identifier.value(), identifier.asString());
                     }
                     return Stream.of(identifier.asString());

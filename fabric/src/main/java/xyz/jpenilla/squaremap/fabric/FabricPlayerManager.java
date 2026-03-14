@@ -19,7 +19,7 @@ public final class FabricPlayerManager extends AbstractPlayerManager {
 
     @Override
     public Component displayName(final ServerPlayer player) {
-        return player.getDisplayName().asComponent();
+        return Component.text(player.getDisplayName().toString());
     }
 
     @Override
@@ -33,6 +33,6 @@ public final class FabricPlayerManager extends AbstractPlayerManager {
     }
 
     private static SquaremapComponentInitializer.PlayerComponent component(final ServerPlayer player) {
-        return player.getComponent(SquaremapComponentInitializer.SQUAREMAP_PLAYER_COMPONENT);
+        return SquaremapComponentInitializer.SQUAREMAP_PLAYER_COMPONENT.get(player);
     }
 }

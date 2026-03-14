@@ -63,8 +63,6 @@ public final class SquaremapFabric implements SquaremapPlatform {
         });
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
             new ClientLifecycleListeners().register();
-        } else {
-            ServerLifecycleEvents.SERVER_STARTED.register($ -> this.common.updateCheck());
         }
 
         final ResourceLocation early = new ResourceLocation("squaremap:early");
@@ -123,7 +121,6 @@ public final class SquaremapFabric implements SquaremapPlatform {
     // classes on the server when guice scans for methods
     private final class ClientLifecycleListeners {
         void register() {
-            ClientLifecycleEvents.CLIENT_STARTED.register($ -> SquaremapFabric.this.common.updateCheck());
             ClientLifecycleEvents.CLIENT_STOPPING.register($ -> SquaremapFabric.this.common.shutdown());
         }
     }

@@ -6,7 +6,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.concurrent.ForkJoinPool;
 import javax.imageio.ImageIO;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
@@ -25,7 +24,6 @@ import xyz.jpenilla.squaremap.common.layer.SpawnIconLayer;
 import xyz.jpenilla.squaremap.common.util.Components;
 import xyz.jpenilla.squaremap.common.util.FileUtil;
 import xyz.jpenilla.squaremap.common.util.ReflectionUtil;
-import xyz.jpenilla.squaremap.common.util.UpdateChecker;
 
 @DefaultQualifier(NonNull.class)
 @Singleton
@@ -98,13 +96,6 @@ public final class SquaremapCommon {
             Components.placeholder("version", this.platform.version())
         );
         audience.sendMessage(success);
-    }
-
-    public void updateCheck() {
-        if (!Config.UPDATE_CHECKER) {
-            return;
-        }
-        ForkJoinPool.commonPool().execute(() -> new UpdateChecker(Logging.logger(), "jpenilla/squaremap").checkVersion());
     }
 
     private void setupApi() {

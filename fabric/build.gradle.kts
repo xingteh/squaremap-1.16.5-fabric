@@ -11,9 +11,11 @@ configurations.implementation {
 }
 
 repositories {
-  maven("https://ladysnake.jfrog.io/artifactory/mods/") {
+  flatDir { dirs("../libs") }
+  mavenCentral()
+  maven("https://maven.ladysnake.org/releases") {
     mavenContent {
-      includeGroup("dev.onyxstudios.cardinal-components-api")
+      includeGroup("io.github.onyxstudios.Cardinal-Components-API")
     }
   }
 }
@@ -30,8 +32,9 @@ dependencies {
     exclude("io.leangen.geantyref")
   }
 
-  modImplementation(libs.adventurePlatformFabric)
-  include(libs.adventurePlatformFabric)
+  compileOnlyApi(libs.adventurePlatformApi)
+  modImplementation("local:adventure-platform-fabric-4.0.0+unofficial:4.0.0+unofficial")
+  include("local:adventure-platform-fabric-4.0.0+unofficial:4.0.0+unofficial")
 
   modImplementation(libs.cloudFabric)
   include(libs.cloudFabric)
@@ -44,6 +47,8 @@ dependencies {
   include(libs.cardinalComponentsBase)
   modImplementation(libs.cardinalComponentsEntity)
   include(libs.cardinalComponentsEntity)
+
+  compileOnly("org.apiguardian:apiguardian-api:1.1.2")
 }
 
 squaremapPlatform {

@@ -93,7 +93,7 @@ public final class LevelArgument<C> extends CommandArgument<C, ServerLevel> {
             return commandContext.get(Commands.SERVER_ACCESS).levels().stream()
                 .flatMap(mapWorld -> {
                     final ResourceLocation identifier = mapWorld.dimension().location();
-                    if (!input.isBlank() && identifier.getNamespace().equals(ResourceLocation.DEFAULT_NAMESPACE)) {
+                    if (!input.isBlank() && identifier.getNamespace().equals("minecraft")) {
                         return Stream.of(identifier.getPath(), identifier.toString());
                     }
                     return Stream.of(identifier.toString());

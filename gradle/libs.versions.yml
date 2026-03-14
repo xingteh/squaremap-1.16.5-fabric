@@ -4,24 +4,19 @@ metadata:
         - plugins
 
 plugins:
-    org.spongepowered.gradle.plugin: 2.0.2
-    xyz.jpenilla.run-paper: 1.0.6
-    net.minecrell.plugin-yml.bukkit: 0.5.1
-    io.papermc.paperweight.userdev: 1.3.8
     quiet-fabric-loom: 0.12-SNAPSHOT
 
 versions:
-    minecraft: 1.19.2
+    minecraft: 1.16.5
     checkerQual: 3.24.0
-    cloud: 1.8.0-SNAPSHOT
+    cloud: 1.6.2
     configurate: 4.1.2
-    adventure: 4.11.0
-    adventurePlatformFabric: 5.5.0-SNAPSHOT
-    paperApi: 1.19.2-R0.1-SNAPSHOT
-    bStats: 3.0.0
-    fabricApi: 0.59.0+1.19.2
-    fabricLoader: 0.14.8
-    cardinalComponents: 5.0.1
+    adventure: 4.9.3
+    #adventureTextMiniMessage: 4.10.0
+    adventurePlatform: 4.0.0
+    fabricApi: 0.42.0+1.16
+    fabricLoader: 0.18.4
+    cardinalComponents: 2.8.3
     guice: 5.1.0
 
     # buildSrc
@@ -47,16 +42,23 @@ dependencies:
     adventureApi:
         group: net.kyori
         name: adventure-api
+        version: { ref: adventure }
     adventureTextSerializerPlain:
         group: net.kyori
         name: adventure-text-serializer-plain
-    miniMessage:
+        version: { ref: adventure }
+    #miniMessage:
+    #    group: net.kyori
+    #    name: adventure-text-minimessage
+    #    version: { ref: adventureTextMiniMessage }
+    adventurePlatformApi:
         group: net.kyori
-        name: adventure-text-minimessage
-    adventurePlatformFabric:
-        group: net.kyori
-        name: adventure-platform-fabric
-        version: { ref: adventurePlatformFabric }
+        name: adventure-platform-api
+        version: { ref: adventurePlatform }
+    #adventurePlatformFabric:
+    #    group: net.kyori
+    #    name: adventure-platform-fabric
+    #    version: { ref: adventurePlatform }
 
     cloudBom:
         group: cloud.commandframework
@@ -72,16 +74,10 @@ dependencies:
         group: cloud.commandframework
         name: cloud-minecraft-extras
         version: { ref: cloud }
-    cloudPaper:
-        group: cloud.commandframework
-        name: cloud-paper
     cloudFabric:
         group: cloud.commandframework
         name: cloud-fabric
         version: { ref: cloud }
-    cloudSponge:
-        group: cloud.commandframework
-        name: cloud-sponge
 
     configurateBom:
         group: org.spongepowered
@@ -94,19 +90,10 @@ dependencies:
         group: org.spongepowered
         name: configurate-yaml
 
-    bStatsBukkit:
-        group: org.bstats
-        name: bstats-bukkit
-        version: { ref: bStats }
-
     checkerQual:
         group: org.checkerframework
         name: checker-qual
         version: { ref: checkerQual }
-    paperApi:
-        group: io.papermc.paper
-        name: paper-api
-        version: { ref: paperApi }
 
     undertow:
         group: io.undertow
@@ -141,11 +128,11 @@ dependencies:
         version: { ref: minecraft }
 
     cardinalComponentsBase:
-        group: dev.onyxstudios.cardinal-components-api
+        group: io.github.onyxstudios.Cardinal-Components-API
         name: cardinal-components-base
         version: { ref: cardinalComponents }
     cardinalComponentsEntity:
-        group: dev.onyxstudios.cardinal-components-api
+        group: io.github.onyxstudios.Cardinal-Components-API
         name: cardinal-components-entity
         version: { ref: cardinalComponents }
 

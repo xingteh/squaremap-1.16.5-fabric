@@ -73,7 +73,8 @@ public final class WorldAdvanced extends AbstractWorldConfig<Advanced> {
             Map.ofEntries(
                 Map.entry("minecraft:dark_forest", "#1c7b07"),
                 Map.entry("minecraft:jungle", "#1f8907"),
-                Map.entry("minecraft:sparse_jungle", "#1f8907"),
+                Map.entry("minecraft:jungle_edge", "#1f8907"),
+                Map.entry("minecraft:modified_jungle_edge", "#1f8907"),
                 Map.entry("minecraft:bamboo_jungle", "#1f8907")
             )
         ).forEach((key, color) -> {

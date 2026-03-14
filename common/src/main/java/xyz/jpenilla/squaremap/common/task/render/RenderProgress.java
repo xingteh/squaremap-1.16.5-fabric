@@ -77,7 +77,7 @@ public final class RenderProgress extends TimerTask {
         final double rollingAvg = Arrays.stream(this.rollingAvgCps).filter(i -> i != 0).average().orElse(0.00D);
 
         final int chunksLeft = this.render.totalChunks() - curChunks;
-        final long timeLeft = (long) (chunksLeft / (this.totalAvgCps.intStream().filter(i -> i != 0).average().orElse(0.00D) / 1000));
+        final long timeLeft = (long) (chunksLeft / (this.totalAvgCps.stream().filter(i -> i != 0).mapToInt(Integer::intValue).average().orElse(0.00D) / 1000));
 
         String etaStr = formatMilliseconds(timeLeft);
         String elapsedStr = formatMilliseconds(System.currentTimeMillis() - this.startTime);

@@ -14,7 +14,6 @@ import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
-import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -387,7 +386,7 @@ public final class Messages {
             this.miniMessage = miniMessage;
         }
 
-        public Component withPlaceholders(final TagResolver... placeholders) {
+        public Component withPlaceholders(final Components.Placeholder... placeholders) {
             if (placeholders.length == 0) {
                 return this.asComponent();
             }

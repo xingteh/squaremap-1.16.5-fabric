@@ -22,7 +22,7 @@ public interface RegionFileDirectoryResolver {
         @Override
         public Path resolveRegionFileDirectory(final ServerLevel level) {
             final Path worldPath = level.getServer().getWorldPath(LevelResource.ROOT);
-            return DimensionType.getStorageFolder(level.dimension(), worldPath).resolve("region");
+            return DimensionType.getStorageFolder(level.dimension(), worldPath.toFile()).toPath().resolve("region");
         }
     }
 }

@@ -9,7 +9,6 @@ java {
 }
 
 dependencies {
-  compileOnly(libs.paperApi)
   compileOnlyApi(libs.checkerQual)
 }
 

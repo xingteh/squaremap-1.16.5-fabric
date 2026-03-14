@@ -317,7 +317,7 @@ public abstract class AbstractRender implements Runnable {
 
     private int effectiveMaxHeight(final ChunkSnapshot chunk) {
         return this.mapWorld.config().MAP_MAX_HEIGHT == -1
-            ? chunk.getMaxBuildHeight()
+            ? 256
             : this.mapWorld.config().MAP_MAX_HEIGHT;
     }
 
@@ -355,7 +355,7 @@ public abstract class AbstractRender implements Runnable {
         final int topY = chunk.getHeight(Heightmap.Types.WORLD_SURFACE, imgX, imgZ) + 1;
         mutablePos.set(blockX, Math.min(topY, this.effectiveMaxHeight(chunk)), blockZ);
 
-        if (topY > chunk.getMinBuildHeight() + 1) {
+        if (topY > 0 + 1) {
             state = this.mapWorld.config().MAP_ITERATE_UP
                 ? this.iterateUp(chunk, mutablePos)
                 : this.iterateDown(chunk, mutablePos);
@@ -405,19 +405,19 @@ public abstract class AbstractRender implements Runnable {
             do {
                 mutablePos.move(Direction.DOWN);
                 state = chunk.getBlockState(mutablePos);
-            } while (!state.isAir() && mutablePos.getY() > chunk.getMinBuildHeight());
+            } while (!state.isAir() && mutablePos.getY() > 0);
         }
         do {
             mutablePos.move(Direction.DOWN);
             state = chunk.getBlockState(mutablePos);
-        } while ((this.mapWorld.getMapColor(state) == Colors.clearMapColor() || this.mapWorld.advanced().invisibleBlocks.contains(state.getBlock())) && mutablePos.getY() > chunk.getMinBuildHeight());
+        } while ((this.mapWorld.getMapColor(state) == Colors.clearMapColor() || this.mapWorld.advanced().invisibleBlocks.contains(state.getBlock())) && mutablePos.getY() > 0);
         return state;
     }
 
     private BlockState iterateUp(final ChunkSnapshot chunk, final BlockPos.MutableBlockPos mutablePos) {
         BlockState state;
         int height = mutablePos.getY();
-        mutablePos.setY(chunk.getMinBuildHeight());
+        mutablePos.setY(0);
         if (chunk.dimensionType().hasCeiling()) {
             do {
                 mutablePos.move(Direction.UP);
@@ -431,7 +431,7 @@ public abstract class AbstractRender implements Runnable {
         do {
             mutablePos.move(Direction.DOWN);
             state = chunk.getBlockState(mutablePos);
-        } while ((this.mapWorld.getMapColor(state) == Colors.clearMapColor() || this.mapWorld.advanced().invisibleBlocks.contains(state.getBlock())) && mutablePos.getY() > chunk.getMinBuildHeight());
+        } while ((this.mapWorld.getMapColor(state) == Colors.clearMapColor() || this.mapWorld.advanced().invisibleBlocks.contains(state.getBlock())) && mutablePos.getY() > 0);
         return state;
     }
 
@@ -452,7 +452,7 @@ public abstract class AbstractRender implements Runnable {
     }
 
     private static @Nullable DepthResult findDepthIfFluid(final BlockPos blockPos, final BlockState state, final ChunkSnapshot chunk) {
-        if (blockPos.getY() > chunk.getMinBuildHeight() && !state.getFluidState().isEmpty()) {
+        if (blockPos.getY() > 0 && !state.getFluidState().isEmpty()) {
             BlockState fluidState;
             int fluidDepth = 0;
 
@@ -463,7 +463,7 @@ public abstract class AbstractRender implements Runnable {
                 mutablePos.setY(yBelowSurface--);
                 fluidState = chunk.getBlockState(mutablePos);
                 ++fluidDepth;
-            } while (yBelowSurface > chunk.getMinBuildHeight() && fluidDepth <= 10 && !fluidState.getFluidState().isEmpty());
+            } while (yBelowSurface > 0 && fluidDepth <= 10 && !fluidState.getFluidState().isEmpty());
 
             return new DepthResult(fluidDepth, fluidState);
         }

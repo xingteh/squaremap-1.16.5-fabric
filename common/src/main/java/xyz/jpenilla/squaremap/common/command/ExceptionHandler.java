@@ -17,7 +17,7 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.util.ComponentMessageThrowable;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -27,12 +27,11 @@ import xyz.jpenilla.squaremap.common.Logging;
 import xyz.jpenilla.squaremap.common.command.exception.CommandCompleted;
 import xyz.jpenilla.squaremap.common.config.Config;
 import xyz.jpenilla.squaremap.common.config.Messages;
+import xyz.jpenilla.squaremap.common.util.Components;
 
 import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.text;
-import static net.kyori.adventure.text.Component.textOfChildren;
 import static net.kyori.adventure.text.event.ClickEvent.copyToClipboard;
-import static net.kyori.adventure.text.event.ClickEvent.runCommand;
 import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
 import static net.kyori.adventure.text.format.NamedTextColor.WHITE;
 import static net.kyori.adventure.text.format.TextDecoration.ITALIC;
@@ -83,9 +82,12 @@ final class ExceptionHandler {
         final Supplier<Component> fallback = () -> Objects.requireNonNull(ComponentMessageThrowable.getOrConvertMessage(cause));
         final Component message;
         if (cause instanceof final ParserException parserException) {
-            final TagResolver[] placeholders = Arrays.stream(parserException.captionVariables())
-                .map(variable -> placeholder(NamingSchemes.SNAKE_CASE.coerce(variable.getKey()), variable.getValue()))
-                .toArray(TagResolver[]::new);
+            final Components.Placeholder[] placeholders = Arrays.stream(parserException.captionVariables())
+                .map(variable -> Components.placeholder(
+                    NamingSchemes.SNAKE_CASE.coerce(variable.getKey()),
+                    variable.getValue()
+                ))
+                .toArray(Components.Placeholder[]::new);
             final String key = Messages.PARSER_EXCEPTION_MESSAGE_PREFIX + parserException.errorCaption().getKey().replace("argument.parse.failure.", "");
             @Nullable Component fromConfig;
             try {
@@ -119,12 +121,15 @@ final class ExceptionHandler {
     }
 
     private static void decorateAndSend(final Audience audience, final ComponentLike componentLike) {
-        final Component message = textOfChildren(
-            Messages.COMMAND_PREFIX.asComponent()
-                .hoverEvent(Messages.CLICK_FOR_HELP.asComponent())
-                .clickEvent(runCommand("/%s help".formatted(Config.MAIN_COMMAND_LABEL))),
-            componentLike
-        );
+        final Component message = Component.text()
+            .append(
+                Messages.COMMAND_PREFIX.asComponent()
+                    .hoverEvent(Messages.CLICK_FOR_HELP.asComponent())
+                    .clickEvent(ClickEvent.runCommand("/%s help".formatted(Config.MAIN_COMMAND_LABEL)))
+            )
+            .append(componentLike)
+            .build();
+
         audience.sendMessage(message);
     }
 

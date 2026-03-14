@@ -1,6 +1,7 @@
 package xyz.jpenilla.squaremap.common.data;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -28,8 +29,7 @@ import xyz.jpenilla.squaremap.common.util.Util;
 
 @DefaultQualifier(NonNull.class)
 public final class RenderManager {
-    private static final Gson GSON = Util.gson()
-        .newBuilder()
+    private static final Gson GSON = new GsonBuilder()
         .enableComplexMapKeySerialization()
         .create();
     private static final String RENDER_PROGRESS_FILE_NAME = "resume_render.json";

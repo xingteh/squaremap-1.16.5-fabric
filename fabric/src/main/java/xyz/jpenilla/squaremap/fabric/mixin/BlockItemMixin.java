@@ -14,10 +14,7 @@ import xyz.jpenilla.squaremap.fabric.event.MapUpdateEvents;
 abstract class BlockItemMixin {
     @Inject(
         method = "place(Lnet/minecraft/world/item/context/BlockPlaceContext;)Lnet/minecraft/world/InteractionResult;",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/world/level/Level;gameEvent(Lnet/minecraft/world/level/gameevent/GameEvent;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/gameevent/GameEvent$Context;)V"
-        )
+        at = @At("RETURN")
     )
     void injectPlace(BlockPlaceContext blockPlaceContext, CallbackInfoReturnable<InteractionResult> cir) {
         if (blockPlaceContext.getLevel() instanceof ServerLevel level) {

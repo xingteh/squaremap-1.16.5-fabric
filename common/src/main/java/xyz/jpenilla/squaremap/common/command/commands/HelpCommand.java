@@ -12,7 +12,6 @@ import com.google.inject.Inject;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;
 import xyz.jpenilla.squaremap.common.command.Commander;
@@ -34,7 +33,7 @@ public final class HelpCommand extends SquaremapCommand {
 
     @Override
     public void register() {
-        final var commandHelpHandler = this.commands.commandManager().createCommandHelpHandler();
+        final var commandHelpHandler = this.commands.commandManager().getCommandHelpHandler();
         final var helpQueryArgument = StringArgument.<Commander>newBuilder("query")
             .greedy()
             .asOptional()
@@ -81,11 +80,11 @@ public final class HelpCommand extends SquaremapCommand {
 
     private static Component helpMessage(final Commander sender, final String key, final String... args) {
         // Hack but works
-        final TagResolver[] placeholders;
+        final Components.Placeholder[] placeholders;
         if (args.length == 0) {
-            placeholders = new TagResolver[]{};
+            placeholders = new Components.Placeholder[]{};
         } else {
-            placeholders = new TagResolver[]{
+            placeholders = new Components.Placeholder[]{
                 Components.placeholder("page", args[0]),
                 Components.placeholder("max_pages", args[1])
             };

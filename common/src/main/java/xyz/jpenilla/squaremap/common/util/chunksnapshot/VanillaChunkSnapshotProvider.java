@@ -1,9 +1,10 @@
 package xyz.jpenilla.squaremap.common.util.chunksnapshot;
 
+import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ChunkHolder;
+import net.minecraft.server.level.ChunkMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -24,7 +25,12 @@ record VanillaChunkSnapshotProvider(ServerLevel level) implements ChunkSnapshotP
         final boolean biomesOnly
     ) {
         return CompletableFuture.supplyAsync(() -> {
-            final @Nullable LevelChunk chunk = fullChunkIfGenerated(this.level, x, z);
+            final @Nullable LevelChunk chunk;
+            try {
+                chunk = fullChunkIfGenerated(this.level, x, z);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             if (chunk == null || chunk.isEmpty()) {
                 return null;
             }
@@ -32,7 +38,7 @@ record VanillaChunkSnapshotProvider(ServerLevel level) implements ChunkSnapshotP
         }, this.level.getServer());
     }
 
-    private static @Nullable LevelChunk fullChunkIfGenerated(final ServerLevel level, final int x, final int z) {
+    private static @Nullable LevelChunk fullChunkIfGenerated(final ServerLevel level, final int x, final int z) throws IOException {
         final ChunkPos chunkPos = new ChunkPos(x, z);
         final ChunkMapAccess chunkMap = (ChunkMapAccess) level.getChunkSource().chunkMap;
 
@@ -52,8 +58,8 @@ record VanillaChunkSnapshotProvider(ServerLevel level) implements ChunkSnapshotP
             }
         }
 
-        final @Nullable CompoundTag chunkTag = chunkMap.squaremap$readChunk(chunkPos).join().orElse(null);
-        if (chunkTag != null && chunkTag.contains("Status", Tag.TAG_STRING)) {
+        final @Nullable CompoundTag chunkTag = ((ChunkMap) chunkMap).readChunk(chunkPos);
+        if (chunkTag != null && chunkTag.contains("Status")) {
             if (ChunkStatus.FULL.getName().equals(chunkTag.getString("Status"))) {
                 @Nullable ChunkAccess chunk = level.getChunkSource()
                     .getChunkFuture(x, z, ChunkStatus.EMPTY, true)

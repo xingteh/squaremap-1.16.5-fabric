@@ -2,6 +2,7 @@ package xyz.jpenilla.squaremap.common.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionHandler;
@@ -72,9 +73,17 @@ public final class Util {
         }
     }
 
+    private static <T> boolean isInRegistry(Registry<T> registry, ResourceLocation id) {
+        if (registry.keySet().contains(id)) {
+            return true;
+        }
+
+        return registry.get(id) != null;
+    }
+
     public static <T> T requireEntry(final Registry<T> registry, final ResourceLocation location) {
         // manually check for key, we don't want the default value if registry is a DefaultedRegistry
-        if (!registry.containsKey(location)) {
+        if (!isInRegistry(registry, location)) {
             throw new IllegalArgumentException("No such entry '" + location + "' in registry '" + registry.key() + "'");
         }
         return requireNonNull(registry.get(location));
@@ -108,6 +117,6 @@ public final class Util {
     }
 
     public static Registry<Biome> biomeRegistry(final RegistryAccess registryAccess) {
-        return registryAccess.ownedRegistryOrThrow(Registry.BIOME_REGISTRY);
+        return registryAccess.registryOrThrow(Registry.BIOME_REGISTRY);
     }
 }

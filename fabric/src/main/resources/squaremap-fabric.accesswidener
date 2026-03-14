@@ -2,3 +2,8 @@ accessWidener	v1	named
 
 # below are manually copied from squaremap-common.accesswidener, be sure to keep up to date with changes
 accessible method net/minecraft/world/level/chunk/PalettedContainer get (I)Ljava/lang/Object;
+accessible method net/minecraft/server/level/ChunkMap readChunk (Lnet/minecraft/world/level/ChunkPos;)Lnet/minecraft/nbt/CompoundTag;
+accessible field net/minecraft/world/level/biome/BiomeSpecialEffects waterColor I
+accessible field net/minecraft/world/level/biome/BiomeSpecialEffects foliageColorOverride Ljava/util/Optional;
+accessible field net/minecraft/world/level/biome/BiomeSpecialEffects grassColorOverride Ljava/util/Optional;
+accessible field net/minecraft/world/level/biome/BiomeSpecialEffects grassColorModifier Lnet/minecraft/world/level/biome/BiomeSpecialEffects$GrassColorModifier;
